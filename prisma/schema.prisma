@@ -1,0 +1,191 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String   @id @default(cuid())
+  email         String   @unique
+  name          String?
+  password      String?
+  role          Role     @default(USER)
+  avatar        String?
+  phone         String?
+  credits       Float    @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  orders        Order[]
+  creditRecharges CreditRecharge[]
+  cart          Cart?
+  profilesSold  AccountProfile[]
+  accounts      Account[]
+  sessions      Session[]
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model StreamingType {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  description String?
+  icon        String?  // URL o emoji para el icono
+  color       String?  // Color para el tema
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  accounts    StreamingAccount[]
+}
+
+model StreamingAccount {
+  id          String   @id @default(cuid())
+  name        String
+  description String
+  price       Float
+  type        String   // Netflix, Disney+, HBO Max, etc.
+  duration    String   // 1 month, 3 months, etc.
+  quality     String   // HD, 4K, etc.
+  screens     Int      // Number of screens
+  active      Boolean  @default(true)
+  image       String?
+  saleType    SaleType @default(FULL) // FULL account or PROFILES
+  maxProfiles Int?     // Max number of profiles for sale
+  pricePerProfile Float? // Price per individual profile
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  orders      Order[]
+  profiles    AccountProfile[]
+  cartItems   CartItem[]
+  streamingType StreamingType? @relation(fields: [type], references: [name])
+}
+
+model Order {
+  id                String   @id @default(cuid())
+  userId            String
+  streamingAccountId String
+  accountEmail      String
+  accountPassword   String
+  profileName       String?  // Profile name if sold by profile
+  saleType          SaleType @default(FULL)
+  quantity          Int      @default(1) // Number of profiles or full accounts
+  status            OrderStatus @default(PENDING)
+  totalPrice        Float
+  expiresAt         DateTime
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  user              User     @relation(fields: [userId], references: [id])
+  streamingAccount  StreamingAccount @relation(fields: [streamingAccountId], references: [id])
+}
+
+model CreditRecharge {
+  id        String   @id @default(cuid())
+  userId    String
+  amount    Float
+  method    String   // Transferencia, Billetera digital, etc.
+  reference String?
+  status    RechargeStatus @default(PENDING)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+model AccountProfile {
+  id                    String   @id @default(cuid())
+  streamingAccountId    String
+  profileName           String
+  profilePin            String?  // PIN for profiles that require it
+  isAvailable           Boolean  @default(true)
+  soldToUserId          String?
+  soldAt                DateTime?
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+  streamingAccount      StreamingAccount @relation(fields: [streamingAccountId], references: [id])
+  soldToUser            User?    @relation(fields: [soldToUserId], references: [id])
+}
+
+model Cart {
+  id          String   @id @default(cuid())
+  userId      String   @unique
+  items       CartItem[]
+  totalAmount Float    @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  user        User     @relation(fields: [userId], references: [id])
+}
+
+model CartItem {
+  id                String   @id @default(cuid())
+  cartId            String
+  streamingAccountId String
+  quantity          Int      @default(1)
+  saleType          SaleType @default(FULL)
+  priceAtTime       Float    // Price when added to cart
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  cart              Cart     @relation(fields: [cartId], references: [id])
+  streamingAccount  StreamingAccount @relation(fields: [streamingAccountId], references: [id])
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum SaleType {
+  FULL
+  PROFILES
+}
+
+enum OrderStatus {
+  PENDING
+  COMPLETED
+  CANCELLED
+  EXPIRED
+}
+
+enum RechargeStatus {
+  PENDING
+  COMPLETED
+  CANCELLED
+}
