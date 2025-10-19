@@ -46,7 +46,10 @@ export default function TypeManagement() {
 
   const fetchTypes = async () => {
     try {
-      const response = await fetch('/api/admin/streaming-types');
+      const response = await fetch('/api/admin/streaming-types',{
+        credentials: "include",
+      });
+      
       if (response.ok) {
         const data = await response.json();
         setTypes(data);
@@ -91,6 +94,7 @@ export default function TypeManagement() {
         headers: {
           'Content-Type': 'application/json',
         },
+        credentials: "include",
         body: JSON.stringify(formData),
       });
 
@@ -116,6 +120,7 @@ export default function TypeManagement() {
         headers: {
           'Content-Type': 'application/json',
         },
+        credentials: "include",
         body: JSON.stringify(formData),
       });
 
@@ -139,6 +144,7 @@ export default function TypeManagement() {
     try {
       const response = await fetch(`/api/admin/streaming-types/${typeId}`, {
         method: 'DELETE',
+        credentials: "include",
       });
 
       if (response.ok) {

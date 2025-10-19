@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/auth-options';
+import { Order } from "@prisma/client";
+
+
 
 export async function POST(request: NextRequest) {
   try {
@@ -36,8 +39,10 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Créditos insuficientes' }, { status: 400 });
     }
 
+     
+
     // Start transaction
-    const orders = [];
+    const orders: Order[] = [];
     
     for (const item of cart.items) {
       const account = item.streamingAccount;
@@ -67,7 +72,7 @@ export async function POST(request: NextRequest) {
             streamingAccountId: account.id,
             isAvailable: true
           },
-          limit: item.quantity
+          take: item.quantity
         });
 
         if (availableProfiles.length < item.quantity) {

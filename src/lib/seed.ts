@@ -1,24 +1,25 @@
 import { db } from '@/lib/db';
 import bcrypt from 'bcryptjs';
 import { seedStreamingTypes } from './seed-types';
+import { Role } from '@prisma/client';
 
 const defaultUsers = [
   {
     email: 'admin@streamhub.com',
     name: 'Administrador',
-    role: 'ADMIN',
+    role: Role.ADMIN,
     password: 'admin123'
   },
   {
     email: 'user@streamhub.com',
     name: 'Usuario',
-    role: 'USER',
+    role: Role.USER,
     password: 'user123'
   },
   {
     email: 'demo@streamhub.com',
     name: 'Demo User',
-    role: 'USER',
+    role: Role.USER,
     password: null
   }
 ];

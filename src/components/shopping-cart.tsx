@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { ShoppingCart, Plus, Minus, Trash2, CreditCard, Check } from "lucide-react";
+import { ShoppingCart as ShoppingCartIcon, Plus, Minus, Trash2, CreditCard, Check } from "lucide-react";
 import { toast } from "sonner";
 
 interface CartItem {
@@ -137,7 +137,7 @@ export function ShoppingCart({ userCredits, onPurchaseComplete }: ShoppingCartPr
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <ShoppingCart className="w-5 h-5" />
+            <ShoppingCartIcon className="w-5 h-5" />
             Mi Carrito
           </CardTitle>
         </CardHeader>
@@ -155,13 +155,13 @@ export function ShoppingCart({ userCredits, onPurchaseComplete }: ShoppingCartPr
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <ShoppingCart className="w-5 h-5" />
+            <ShoppingCartIcon className="w-5 h-5" />
             Mi Carrito
           </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="text-center py-8">
-            <ShoppingCart className="w-16 h-16 mx-auto text-gray-300 mb-4" />
+            <ShoppingCartIcon className="w-16 h-16 mx-auto text-gray-300 mb-4" />
             <p className="text-gray-500">Tu carrito está vacío</p>
             <p className="text-sm text-gray-400 mt-2">
               Agrega productos para comenzar a comprar
@@ -176,7 +176,7 @@ export function ShoppingCart({ userCredits, onPurchaseComplete }: ShoppingCartPr
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <ShoppingCart className="w-5 h-5" />
+          <ShoppingCartIcon className="w-5 h-5" />
           Mi Carrito
           <Badge variant="secondary">{cart.items.length}</Badge>
         </CardTitle>

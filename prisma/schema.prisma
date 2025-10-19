@@ -92,12 +92,15 @@ model StreamingAccount {
   saleType    SaleType @default(FULL) // FULL account or PROFILES
   maxProfiles Int?     // Max number of profiles for sale
   pricePerProfile Float? // Price per individual profile
+  email       String?
+  password    String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   orders      Order[]
   profiles    AccountProfile[]
   cartItems   CartItem[]
   streamingType StreamingType? @relation(fields: [type], references: [name])
+  
 }
 
 model Order {
