@@ -200,6 +200,7 @@ export default function ProductManagement() {
   }
 
   return (
+    
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-bold">Gestión de Productos</h2>
@@ -316,7 +317,7 @@ export default function ProductManagement() {
         </CardContent>
       </Card>
 
-      {/* Edit Dialog */}
+     
       <Dialog open={editDialogOpen} onOpenChange={setEditDialogOpen}>
         <DialogContent className="max-w-2xl">
           <DialogHeader>
@@ -447,7 +448,7 @@ export default function ProductManagement() {
         </DialogContent>
       </Dialog>
 
-      {/* Create Dialog */}
+     
       <Dialog open={createDialogOpen} onOpenChange={setCreateDialogOpen}>
         <DialogContent className="max-w-2xl">
           <DialogHeader>

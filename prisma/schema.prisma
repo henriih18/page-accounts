@@ -91,7 +91,7 @@ model StreamingAccount {
   image       String?
   saleType    SaleType @default(FULL) // FULL account or PROFILES
   maxProfiles Int?     // Max number of profiles for sale
-  pricePerProfile Float? // Price per individual profile
+  pricePerProfile Float? 
   email       String?
   password    String?
   createdAt   DateTime @default(now())

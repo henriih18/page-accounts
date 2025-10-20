@@ -96,7 +96,7 @@ export default function AdminDashboard() {
   return (
     <AuthGuard requireAdmin>
       <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 dark:from-gray-900 dark:to-gray-800">
-        {/* Header */}
+       
         <header className="sticky top-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-lg border-b border-green-200 dark:border-gray-700">
           <div className="container mx-auto px-4 py-4">
             <div className="flex items-center justify-between">
@@ -120,7 +120,7 @@ export default function AdminDashboard() {
         </header>
 
         <div className="container mx-auto px-4 py-8">
-          {/* Stats Cards */}
+       
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             <Card className="bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -175,7 +175,7 @@ export default function AdminDashboard() {
             </Card>
           </div>
 
-          {/* Charts */}
+          
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
             <Card className="bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
               <CardHeader>
@@ -218,7 +218,7 @@ export default function AdminDashboard() {
             </Card>
           </div>
 
-          {/* Management Tables */}
+       
           <Tabs defaultValue="users" className="w-full">
             <TabsList className="grid w-full grid-cols-6">
               <TabsTrigger value="users">Usuarios</TabsTrigger>
